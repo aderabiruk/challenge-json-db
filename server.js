@@ -12,6 +12,10 @@ app.use(bodyParser.json())
 
 app.get('/health', api.getHealth)
 
+app.get('/:student/*', api.getStudentProperty)
+app.put('/:student/*', api.saveStudentProperty)
+app.delete('/:student/*', api.deleteStudentProperty)
+
 app.use(middleware.handleError)
 app.use(middleware.notFound)
 
