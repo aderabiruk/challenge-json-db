@@ -41,7 +41,20 @@ async function getStudentProperty (req, res, next) {
 }
 
 async function saveStudentProperty (req, res, next) {
-    res.json({ success: true })
+    // Get Student Storage Filepath
+    const filepath = fileHelpers.getStudentStorageFilepath(req.params.student)
+
+    // Create Student Object
+    let path = req.params[0].split("/")
+    let studentRecord = storageHelpers.read(filepath)
+
+    // Build Student Record Object
+    storageHelpers.createObject(studentRecord, path, req.body)
+
+    // Write to JSON
+    storageHelpers.write(filepath, studentRecord)
+
+    res.status(200).json(studentRecord)
 }
 
 async function deleteStudentProperty (req, res, next) {
