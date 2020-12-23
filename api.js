@@ -58,5 +58,29 @@ async function saveStudentProperty (req, res, next) {
 }
 
 async function deleteStudentProperty (req, res, next) {
-    res.json({ success: true })
+    // Get Student Storage Filepath
+    const filepath = fileHelpers.getStudentStorageFilepath(req.params.student)
+
+    if (storageHelpers.exists(filepath)) {
+        let path = req.params[0].split("/")
+
+        // Read and Parse Student Record
+        let studentRecord = storageHelpers.read(filepath)
+        let result = storageHelpers.parseObject(studentRecord, path)
+        if (result) {
+            storageHelpers.deleteObject(studentRecord, path)
+            storageHelpers.write(filepath, studentRecord)
+            res.status(200).json(studentRecord)
+        }
+        else {
+            res.status(404).json({
+                message: "Student property not found!"
+            })
+        }
+    }
+    else {
+        res.status(404).json({
+            message: "Student record not found!"
+        })
+    }
 }

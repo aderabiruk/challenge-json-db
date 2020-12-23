@@ -5,7 +5,8 @@ module.exports = {
     write,
     exists,
     parseObject,
-    createObject
+    createObject,
+    deleteObject
 }
 
 function exists (filepath) {
@@ -47,7 +48,7 @@ function deleteObject (object, path) {
     lastKey = path.length - 1
 
     currentObject = object
-    for (let i = 0; i < lastKey; ++i) {
+    for (let i = 0; i <= lastKey; ++i) {
         currentObject = currentObject[path[i]]
         if (!currentObject) {
             return
