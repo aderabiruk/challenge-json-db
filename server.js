@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 1337
 
 const app = express()
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ type: "*/*"}))
 
 app.get('/health', api.getHealth)
 
